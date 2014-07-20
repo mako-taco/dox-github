@@ -1,6 +1,6 @@
 {
   "name": "dox-github",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "CLI for transforming dox output into github READMEs",
   "main": "index.js",
   "scripts": {
