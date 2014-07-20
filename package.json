@@ -1,0 +1,24 @@
+{
+  "name": "dox-github",
+  "version": "0.0.1",
+  "description": "CLI for transforming dox output into github READMEs",
+  "main": "docs.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mako-taco/dox-github.git"
+  },
+  "keywords": [
+    "dox",
+    "github",
+    "markdown"
+  ],
+  "author": "Jake Scott",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mako-taco/dox-github/issues"
+  },
+  "homepage": "https://github.com/mako-taco/dox-github"
+}

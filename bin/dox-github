@@ -1,0 +1,66 @@
+#!/usr/bin/env node
+var input = '';
+
+process.stdin.setEncoding('utf8');
+
+process.stdin.on('readable', function() {
+  var chunk = process.stdin.read();
+  if (chunk !== null) {
+    input += chunk;
+  }
+});
+
+process.stdin.on('end', function() {
+  var comments = JSON.parse(input);
+
+  process.stdout.write('##API\n');
+  
+  comments.forEach(function (comment) {
+  	if(comment.isPrivate) {return;}
+  	
+  	var params = comment.tags.filter(function (tag) {
+  		return tag.type === 'param';
+  	});
+
+  	if(params.length === 0) {return;}
+
+	if(comment.ctx.string === undefined) {
+  		comment.ctx.string = '**MISSING DOCUMENTATION**';
+	}
+
+	//specs 
+	var arg = 0;
+	params.forEach(function (param) {
+		if(param.name === undefined) {
+			param.name = 'arg' + arg;
+		}
+	});
+
+	var paramString = params.map(function (param) {
+		return param.name;
+	}).join(', ');
+
+
+  	//description
+	var description = cleanHTML(comment.description.full);
+	comment.ctx.string = comment.ctx.string.replace('()', '(' + paramString + ')');
+	process.stdout.write('\n###' + comment.ctx.string + '\n');
+  	params.forEach(function (param) {
+  		process.stdout.write(' - `' + param.name + '` *' + param.types + '* ' + param.description + '\n');
+  	});
+	process.stdout.write('\n' + description + '\n');
+
+	//code
+  	process.stdout.write('\n```javascript\n');
+  	process.stdout.write(comment.code + '\n');
+  	process.stdout.write('```\n');
+  });
+});
+
+function cleanHTML (str) {
+	return str.replace(/<p>/g, '')
+		.replace(/<\/p>/g, '')
+		.replace(/<code>/g, '`')
+		.replace(/<\/code>/g, '`')
+		.replace(/<br \/>/g, ' ');
+}

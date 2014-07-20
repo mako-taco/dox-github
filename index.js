@@ -1,0 +1,1 @@
+console.error('This tool is meant for command line use only.');
